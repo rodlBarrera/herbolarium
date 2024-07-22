@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Herbolarium</title>
+</head>
+<body>
+    <h1 class="title">Herbolarium</h1>
+    <section id="library">
+        <section id="herbal_list">
+            <div class="search_filter">
+                <div class="search_input">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="svg_icon bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg>
+                    <input type="text" id="herbal_search" name="herbal_search" placeholder="Buscar la hierba que necesites">
+                </div>
+                <div id="select_filter">
+                    <button class="tab" id="fire_tab">Fuego</button>
+                    <button class="tab" id="air_tab">Aire</button>
+                    <button class="tab" id="water_tab">Agua</button>
+                    <button class="tab" id="earth_tab">Tierra</button>
+                </div>
+            </div>
+            <div id="herbal_cards"></div>
+        </section>
+        <section id="herbal_info">
+        </section>
+    </section>
+    <script src="./js/script.js"></script>
+</body>
+</html>
