@@ -768,7 +768,7 @@ function filterByElement(btn) {
 }
 
 // Renderiza la información de cada Hierba
-function renderInformationHerb(herb) {
+function renderHerbInfo(herb) {
     let herbDescription = '';
 
     herb.description.forEach(description => {
@@ -807,11 +807,9 @@ function eventGetInfoHerb() {
         card.addEventListener('click', () => {
             const title = card.querySelector('.herbTitle').innerText;
 
-            herbsData.forEach(herb => {
-                if(herb.name === title) {
-                    renderInformationHerb(herb);
-                }
-            });
+            let herbSelected = herbsData.find(herb => herb.name === title);
+
+            renderHerbInfo(herbSelected);
         });
     });
 }
