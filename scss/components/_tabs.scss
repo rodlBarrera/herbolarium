@@ -1,0 +1,31 @@
+&__tab {
+    border-radius: 10px;
+    padding: .5em 1em;
+    color: $color-white;
+    border: none;
+    cursor: pointer;
+    &__fire {
+        background-color: $color-fire;
+        &__active {
+            background-color: $color-fire-active;
+        }
+    }
+    &__water {
+        background-color: $color-water;
+        &__active {
+            background-color: $color-water-active;
+        }
+    }
+    &__air {
+        background-color: $color-air;
+        &__active {
+            background-color: $color-air-active;
+        }
+    }
+    &__earth {
+        background-color: $color-earth;
+        &__active {
+            background-color: $color-earth-active;
+        }
+    }
+}

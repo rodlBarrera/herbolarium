@@ -3,10 +3,7 @@ const herbalSearch = document.querySelector("#herbal_search");
 const selectFilter = document.querySelector("#select_filter");
 const herbalCards = document.querySelector("#herbal_cards");
 const herbalInfo = document.querySelector("#herbal_info");
-const fireTab = document.querySelector("#fire_tab");
-const waterTab = document.querySelector("#water_tab");
-const airTab = document.querySelector("#air_tab");
-const earthTab = document.querySelector("#earth_tab");
+const newRecipeBtn = document.querySelector("#new_recipe_btn");
 
 const herbsData = [
   {
@@ -645,116 +642,118 @@ const elementTypeIcon = {
   tierra: "../img/earth_icon.svg",
 };
 
+const listTabsId = ['fire_tab', 'water_tab', 'air_tab', 'earth_tab'];
+
+let newRecipe = false;
+
 // Inicializa las primeras funciones
 const init = () => {
-  createListOfHerbs(herbsData);
-  filterByElement(fireTab);
-  filterByElement(waterTab);
-  filterByElement(airTab);
-  filterByElement(earthTab);
-  eventGetInfoHerb();
+  setLocalStorage('herbsData', herbsData);
+  createListOfHerbs();
+  listTabsId.forEach(id => filterByElement(id));
+  searchHerbs();
 };
 
 init();
 
-
-
-
-// Crea la lista de card de hierbas
-function createListOfHerbs(list) {
+// Función ára crear la lista de card de hierbas
+function createListOfHerbs() {
+  let list = getLocalStorage('herbsData');
+  herbalCards.replaceChildren();
   list.forEach((herb) => {
     renderHerbCard(herb);
   });
 }
 
-// Renderizar las tarjetas de las plantas
+// Función para rederizar las tarjetas de las plantas
 function renderHerbCard(herb) {
   const card = document.createElement("div");
-  card.className = "card";
+  card.classList.add("herbal_list__cards__card");
+  card.classList.toggle("herbal_card__selected", herb.selected === true);
+  card.onclick = () => eventClickCard(herb);
 
-  const herbImage = document.createElement("img");
-  herbImage.className = "herbImage";
-  herbImage.src = herb.image;
-  herbImage.alt = herb.alt;
-
-  const herbLabel = document.createElement("div");
-  herbLabel.className = "herbLabel";
-
-  const herbElement = document.createElement("img");
-  let element = herb.naturalEnergy.toLowerCase();
-  herbElement.src = elementTypeIcon[element];
-  herbElement.alt = herb.naturalEnergy;
-  herbElement.className = "herbElement";
-
-  const herbTitle = document.createElement("span");
-  herbTitle.className = "herbTitle";
-  herbTitle.innerText = herb.name;
-
-  herbLabel.appendChild(herbElement);
-  herbLabel.appendChild(herbTitle);
-
-  card.appendChild(herbImage);
-  card.appendChild(herbLabel);
-
+  card.innerHTML = `
+    <img src="${herb.image}" alt="${herb.name}" class="herbal_list__cards__card__image">
+    <div class="herbal_list__cards__card__label">
+      <img src="${elementTypeIcon[herb.naturalEnergy.toLowerCase()]}" alt="${herb.naturalEnergy}" class="herbal_list__cards__card__label__icon">
+      <span class="herbal_list__cards__card__label__title">${herb.name}</span>
+    </div>
+  `;
+  
   herbalCards.appendChild(card);
 }
 
-// Buscar hierbas de forma dinámica
-herbalSearch.addEventListener("input", (event) => {
-  const searchValue = event.target.value.toLowerCase();
-
-  if (searchValue == "") {
-    herbalCards.replaceChildren();
-    createListOfHerbs(herbsData);
-    return;
+function eventClickCard(herb) {
+  if (newRecipe) {
+    addIngredient(herb);
+  } else {
+    renderHerbInfo(herb);
   }
+}
 
-  let herbsFilter = herbsData.filter((herb) => {
-    let name =
+// Función para filtrar de forma dinámica
+function searchHerbs() {
+  let list = getLocalStorage('herbsData');
+  herbalSearch.addEventListener("input", (event) => {
+    const searchValue = event.target.value.toLowerCase();
+  
+    if (searchValue == "") {
+      setLocalStorage('herbsData', herbsData);
+      createListOfHerbs();
+      return;
+    }
+  
+    let herbsFilter = list.filter((herb) => {
+      let name =
       searchValue != ""
-        ? herb.name.toLowerCase().includes(searchValue.toLowerCase())
-        : false;
-    let energy =
+          ? herb.name.toLowerCase().includes(searchValue.toLowerCase())
+          : false;
+      let energy =
       searchValue != ""
-        ? herb.naturalEnergy.toLowerCase().includes(searchValue.toLowerCase())
-        : false;
-    let medic =
+          ? herb.naturalEnergy.toLowerCase().includes(searchValue.toLowerCase())
+          : false;
+      let medic =
       searchValue != ""
-        ? herb.medicBenefits.some((medic) =>
-            medic.toLowerCase().includes(searchValue.toLowerCase())
-          )
-        : false;
-    let magic =
+          ? herb.medicBenefits.some((medic) =>
+            transformString(medic).includes(transformString(searchValue))
+            )
+          : false;
+      let magic =
       searchValue != ""
-        ? herb.magicBenefits.some((magic) =>
-            magic.toLowerCase().includes(searchValue.toLowerCase())
-          )
-        : false;
-    return name || energy || medic || magic;
+          ? herb.magicBenefits.some((magic) =>
+            transformString(magic).includes(transformString(searchValue))
+            )
+          : false;
+      return name || energy || medic || magic;
+    });
+
+    setLocalStorage('herbsData', herbsFilter);
+  
+    createListOfHerbs();
   });
+}
 
-  herbalCards.replaceChildren();
-  createListOfHerbs(herbsFilter);
-});
-
-// Generar evento de filtrado por elemento
-function filterByElement(btn) {
+// Función para filtrar por elemento
+function filterByElement(id) {
+  const btn = document.querySelector(`#${id}`);
+  const elementSelected = id.split('_')[0];
   let element = btn.innerText;
 
   btn.addEventListener("click", () => {
-    btn.classList.toggle("active", !btn.classList.contains("active"));
+    btn.classList.toggle(`herbal_list__actions__select_tab_element__tab__${elementSelected}__active`, !btn.classList.contains(`herbal_list__actions__select_tab_element__tab__${elementSelected}__active`));
 
-    const tabList = document.querySelectorAll("button.tab");
+    const tabList = document.querySelectorAll(".herbal_list__actions__select_tab_element>button");
 
     Array.from(tabList).map((tab) => {
       if (tab.innerText !== btn.innerText) {
-        tab.classList.remove("active");
+        const elementNotSelected = tab.id.split('_')[0];
+        tab.classList.remove(`herbal_list__actions__select_tab_element__tab__${elementNotSelected}__active`);
       }
     });
 
-    if (!btn.classList.contains("active")) {
-      herbalCards.replaceChildren();
-      createListOfHerbs(herbsData);
+    if (!btn.classList.contains(`herbal_list__actions__select_tab_element__tab__${elementSelected}__active`)) {
+      setLocalStorage('herbsData', herbsData);
+      createListOfHerbs();
       return;
     }
 
@@ -762,54 +761,100 @@ function filterByElement(btn) {
       (herb) => herb.naturalEnergy === element
     );
 
-    herbalCards.replaceChildren();
-    createListOfHerbs(herbsByElement);
+    setLocalStorage('herbsData', herbsByElement);
+    createListOfHerbs();
+    searchHerbs();
   });
 }
 
-// Renderiza la información de cada Hierba
+// Función para renderizar la información de cada Hierba
 function renderHerbInfo(herb) {
     let herbDescription = '';
+    let herbMedicBenefits = '';
+    let herbMagicBenefits = '';
 
     herb.description.forEach(description => {
-        herbDescription += `<p>${description}</p>`
+        herbDescription += `<p class="herbal_info__description__paragraph">${description}</p>`
+    })
+
+    herb.medicBenefits.forEach(medicBenefit => {
+        herbMedicBenefits += `<li>${medicBenefit}</li>`
+    })
+
+    herb.magicBenefits.forEach(magicBenefit => {
+        herbMagicBenefits += `<li>${magicBenefit}</li>`
     })
 
     herbalInfo.innerHTML = `
-            <div class="herbGeneral">
-                <img src="${herb.image}" alt="${herb.name}">
-                <div class="herbStats">
-                    <div class="firstStat">
-                        <h2>${herb.name}</h2>
-                        <div class="herbElement">
-                            <img src="${elementTypeIcon[herb.naturalEnergy.toLowerCase()]}" alt="${herb.naturalEnergy}">
-                            <span>${herb.naturalEnergy}</span>
-                        </div>
+            <div class="herbal_info__general">
+                <img class="herbal_info__general__image" src="${herb.image}" alt="${herb.name}">
+                <div class="herbal_info__general__stats">
+                    <div class="herbal_info__general__stats__element">
+                        <img class="herbal_info__general__stats__element__icon" src="${elementTypeIcon[herb.naturalEnergy.toLowerCase()]}" alt="${herb.naturalEnergy}">
+                        <h2 class="herbal_info__general__stats__element__name">${herb.name}</h2>
                     </div>
-                    <div class="secondStat">
-                        <p><b>Beneficios Médicos: </b>${herb.medicBenefits.join(', ')}</p>
-                        <p><b>Beneficios Mágicos: </b>${herb.magicBenefits.join(', ')}</p>
+                    <div class="herbal_info__general__stats__benefits_list">
+                        <p class="herbal_info__general__stats__benefits_list__title">Beneficios Médicos:</p>
+                        <ul class="herbal_info__general__stats__benefits_list__list">
+                          ${herbMedicBenefits}
+                        </ul>
+                    </div>
+                    <div class="herbal_info__general__stats__benefits_list">
+                        <p class="herbal_info__general__stats__benefits_list__title">Beneficios Mágicos:</p>
+                        <ul class="herbal_info__general__stats__benefits_list__list">
+                          ${herbMagicBenefits}
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="herbDescription">
+            <div class="herbal_info__description">
                 ${herbDescription}
-                <p class="alchemicAdvice">${herb.alchemicalAdvice}</p>
+                <p class="herbal_info__description__alchemist_advice">${herb.alchemicalAdvice}</p>
             </div>
     `;
 }
 
-// Evento cuando se selecciona una hierba
-function eventGetInfoHerb() {
-    const cardsList = herbalCards.querySelectorAll(".card");
+// Función para eliminar tildes y transformar en minúsculas un string
+function transformString(text) {
+  const minText = text.toLowerCase();
+  return minText.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
 
-    cardsList.forEach(card => {
-        card.addEventListener('click', () => {
-            const title = card.querySelector('.herbTitle').innerText;
+// Función para obtener la información de la hierba seleccionada
+function getHerbInfo(herb) {
+  card.addEventListener('click', () => {
+    let herbSelected = herbsData.find(herbal => herbal.name === herb.name);
 
-            let herbSelected = herbsData.find(herb => herb.name === title);
+    renderHerbInfo(herbSelected);
+  });
+}
 
-            renderHerbInfo(herbSelected);
-        });
-    });
+// Función para activar la selección de ingredientes
+newRecipeBtn.addEventListener('click', () => {
+  newRecipe = !newRecipe;
+  newRecipeBtn.classList.toggle('herbal_list__actions__content__button__primary__active', newRecipe);
+  newRecipeBtn.innerText = newRecipe ? 'Cancelar' : 'Nueva Receta';
+});
+
+// Función para añadir ingredientes a la receta
+function addIngredient(herb) {
+  let herbSelected = herbsData.map(herbal => {
+    if(herbal.name === herb.name) {
+      herbal.selected = !herbal.selected;
+    }
+    return herbal;
+  });
+  setLocalStorage('herbsData', herbSelected);
+  createListOfHerbs();
+};
+
+
+// Función para guardar en local storage
+function setLocalStorage(name, value) {
+  localStorage.setItem(name, JSON.stringify(value));
+}
+
+// Función para obtener de local storage
+function getLocalStorage(name) {
+  return JSON.parse(localStorage.getItem(name));
 }

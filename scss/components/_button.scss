@@ -1,0 +1,12 @@
+&__button {
+    border: none;
+    border-radius: 5px;
+    width: 16em;
+    padding: .5em 1em;
+    cursor: pointer;
+    &__primary {
+        background-color: $bg-button;
+        color: $color-white;
+    }
+}
+

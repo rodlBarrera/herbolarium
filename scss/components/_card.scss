@@ -1,0 +1,25 @@
+&__card {
+    display: flex;
+    flex-flow: column;
+    cursor: pointer;
+    &__image {
+        width: 100%;
+        object-fit: fill;
+    }
+    &__label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: .3em;
+        background-color: $bg-card;
+        &__icon {
+            width: 20%;
+        }
+        &__title {
+            font-size: 1rem;
+            font-weight: bold;
+            flex: 2;
+            text-align: center;
+        }
+    }
+}

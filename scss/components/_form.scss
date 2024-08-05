@@ -1,0 +1,32 @@
+&__search_filter {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    &__svg {
+        position: absolute;
+        left: 10px;
+        fill: $color-form-event;
+        width: 18px;
+        height: 18px;
+    }
+    &__input {
+        font-size: 18px;
+        padding: 5px 10px;
+        width: 100%;
+        padding-left: 35px;
+        outline: none;
+        background: $color-white;
+        color: $color-black;
+        border: 1px solid $color-form-base;
+        border-radius: 5px;
+        transition: .3s ease;
+        &:focus {
+            border: 1px solid $color-form-event;
+            border-radius: 5px;
+        }
+        &::placeholder {
+            color: $color-form-placeholder;
+        }
+    }
+}
