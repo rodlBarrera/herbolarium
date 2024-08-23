@@ -38,6 +38,7 @@
     "decamelize": "^1.2.0",
     "decamelize-keys": "^1.1.1",
     "delegates": "^1.0.0",
+    "dragula": "^3.7.3",
     "emoji-regex": "^8.0.0",
     "encoding": "^0.1.13",
     "env-paths": "^2.2.1",
@@ -193,8 +194,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-css": "node-sass --include-path scss ./scss/style.scss ./css/style.css",
-    "watch-css": "nodemon -e scss -x \"npm run build-css\""
-
+    "scss": "nodemon -e scss -x \"npm run build-css\""
   },
   "repository": {
     "type": "git",

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="css/style.css">
     <title>Herbolarium</title>
 </head>
@@ -22,11 +24,10 @@
         <section class="herbal_list" id="herbal_list">
             <div class="herbal_list__actions">
                 <div class="herbal_list__actions__content">
-                    <div class="herbal_list__actions__content__search_filter">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="herbal_list__actions__content__search_filter__svg" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg>
-                        <input type="text" id="herbal_search" class="herbal_list__actions__content__search_filter__input" name="herbal_search" placeholder="Buscar la hierba que necesites">
+                    <div class="herbal_list__actions__content__search__form">
+                        <input type="text" id="herbal_search" class="herbal_list__actions__content__search__form__input" name="herbal_search" placeholder="Busca por nombre o beneficio"/>
                     </div>
-                    <!-- <button id="new_recipe_btn" class="herbal_list__actions__content__button herbal_list__actions__content__button__primary">Nueva Receta</button> -->
+                    <button id="new_recipe_btn" class="herbal_list__actions__content__button herbal_list__actions__content__button__primary">Nueva Receta</button>
                 </div>
                 <div class="herbal_list__actions__select_tab_element">
                     <button class="herbal_list__actions__select_tab_element__tab herbal_list__actions__select_tab_element__tab__fire" id="fire_tab">Fuego</button>
@@ -35,11 +36,39 @@
                     <button class="herbal_list__actions__select_tab_element__tab herbal_list__actions__select_tab_element__tab__earth" id="earth_tab">Tierra</button>
                 </div>
             </div>
-            <div class="herbal_list__cards"" id="herbal_cards"></div>
+            <div class="herbal_list__cards" id="herbal_cards"></div>
         </section>
         <section class="herbal_info" id="herbal_info">
         </section>
+        <section class="herbal_create" id="herbal_create" style="display: none;">
+            <div class="herbal_create__new_recipe">
+                <div class="herbal_create__new_recipe__recipe_type__form">
+                    <select class="herbal_create__new_recipe__recipe_type__form__select" name="recipe_type" id="recipe_type">
+                        <option value="" disabled selected hidden>Tipo de receta</option>
+                        <option value="bano">Baño</option>
+                        <option value="pomada">Pomada</option>
+                        <option value="aceite">Aceite</option>
+                        <option value="locion">Loción</option>
+                    </select>
+                </div>
+                <div class="herbal_create__new_recipe__recipe_name__form">
+                    <input type="text" id="recipe_name" class="herbal_create__new_recipe__recipe_name__form__input" name="recipe_name" placeholder="Nombre de tu nueva receta"/>
+                </div>
+                <div class="herbal_create__new_recipe__recipe_description__form">
+                    <textarea id="recipe_description" class="herbal_create__new_recipe__recipe_description__form__textarea" name="recipe_description" placeholder="Descripción de la receta"></textarea>
+                </div>
+                <span class="herbal_create__new_recipe__recipe_ingredients_instructions">Arrastra las hierbas que quieras agregar a tu receta</span>
+                <div class="herbal_create__new_recipe__recipe_ingredients" id="recipe_ingredients"></div>
+                <div class="herbal_create__new_recipe__recipe_benefits" id="recipe_benefits"></div>
+                <div class="herbal_create__new_recipe__recipe_buttons" id="recipe_save">
+                    <button class="herbal_create__new_recipe__recipe_buttons__button herbal_create__new_recipe__recipe_buttons__button__cancel" id="cancel_recipe_btn">Cancelar</button>
+                    <button class="herbal_create__new_recipe__recipe_buttons__button herbal_create__new_recipe__recipe_buttons__button__primary" id="save_recipe_btn">Guardar</button>
+                </div>
+            </div>
+        </section>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./js/main.js"></script>
 </body>
 </html>

@@ -28,4 +28,28 @@
             background-color: $color-earth-active;
         }
     }
+    &__aceite {
+        background-color: $color-oil;
+        &__active {
+            background-color: $color-oil-active;
+        }
+    }
+    &__bano {
+        background-color: $color-bath;
+        &__active {
+            background-color: $color-bath-active;
+        }
+    }
+    &__locion {
+        background-color: $color-lotion;
+        &__active {
+            background-color: $color-lotion-active;
+        }
+    }
+    &__pomada {
+        background-color: $color-ointment;
+        &__active {
+            background-color: $color-ointment-active;
+        }
+    }
 }

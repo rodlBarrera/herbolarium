@@ -1,0 +1,99 @@
+main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1em;
+    height: 100%;
+    padding: 2em;
+    section {
+        background: rgba(0, 0, 0, 0.2);
+    }
+    .recipe_list {
+        &__actions {
+            &__content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 1em;
+                gap: 2em;
+                @import '../components/button';
+                &__search {
+                    
+                    @import '../components/form';
+                }
+            }
+            &__select_tab_element {
+                display: flex;
+                justify-content: space-around;
+                padding: 1em;
+                @import '../components/tabs';
+            }
+        }
+        &__cards {
+            display: grid;
+            width: 100%;
+            max-height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            grid-template-columns: repeat(auto-fit, 167px);
+            gap: 1em;
+            padding: 1em;
+            @import '../components/card';
+        }
+    }
+    .recipe_info {
+        padding: 2em;
+        &__general {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1em;
+            &__image, &__stats {
+                width: 100%;
+            }
+            &__stats {
+                &__element {
+                    display: flex;
+                    align-items: center;
+                    margin: 1em 0;
+                    &__icon {
+                        width: 20%;
+                        margin-right: 1em;
+                    }
+                    &__name {
+                        font-size: 3rem;
+                    }
+                }
+                &__benefits_list {
+                    margin-bottom: 1em;
+                    &__title {
+                        font-weight: bold;
+                    }
+                    &__list {
+                        margin-left: 2em;
+                    }
+                }
+            }
+        }
+        &__description {
+            &__paragraph {
+                margin: 1em 0;
+            }
+            &__alchemist_advice {
+                margin: 2em 0;
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+        }
+        &__buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 2em;
+            padding: 1em;
+            @import '../components/button';
+        }
+    }
+}
+
+.gu-mirror {
+    @import '../components/card';
+}

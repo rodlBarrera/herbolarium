@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <title>Herbolarium</title>
 </head>
@@ -19,11 +20,26 @@
         </div>
     </header>
     <main>
-        <section class="herbal_list" id="herbal_list">
+        <section class="recipe_list" id="recipe_list">
+            <div class="recipe_list__actions">
+                <div class="recipe_list__actions__content">
+                    <div class="recipe_list__actions__content__search__form">
+                        <input type="text" id="recipe_search" class="recipe_list__actions__content__search__form__input" name="recipe_search" placeholder="Busca por nombre o beneficio"/>
+                    </div>
+                </div>
+                <div class="recipe_list__actions__select_tab_element">
+                    <button class="recipe_list__actions__select_tab_element__tab recipe_list__actions__select_tab_element__tab__aceite" id="aceite_type">Aceite</button>
+                    <button class="recipe_list__actions__select_tab_element__tab recipe_list__actions__select_tab_element__tab__bano" id="bano_type">Baño</button>
+                    <button class="recipe_list__actions__select_tab_element__tab recipe_list__actions__select_tab_element__tab__locion" id="locion_type">Loción</button>
+                    <button class="recipe_list__actions__select_tab_element__tab recipe_list__actions__select_tab_element__tab__pomada" id="pomada_type">Pomada</button>
+                </div>
+            </div>
+            <div class="recipe_list__cards" id="recipe_cards"></div>
         </section>
-        <section class="herbal_info" id="herbal_info">
+        <section class="recipe_info" id="recipe_info">
         </section>
     </main>
-    <script src="./js/main.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/grimorie.js"></script>
 </body>
 </html>
