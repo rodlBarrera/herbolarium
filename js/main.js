@@ -40,10 +40,15 @@ let magicBenefits = [];
 
 // Función asyncrona para obtener los datos de las hierbas
 async function getHerbsData() {
-  const response = await fetch("https://mocki.io/v1/bcc5d000-775e-4fef-862a-f6e4454672f8");
+  const response = await fetch("https://api.jsonbin.io/v3/b/6826518b8960c979a59a3ebd", {
+    headers: {
+      'X-Master-Key': '$2a$10$VE3OqcAEc5P0J2G9veifC.1aNC/NN1TWGOenZvVDktE1vyD1dRoMq',
+
+    }
+  });
   try {
     const data = await response.json();
-    herbsData = [...data.herbals];
+    herbsData = [...data.record.herbals];
   } catch (error) {
     console.error(error);
   }
